@@ -1,0 +1,34 @@
+{
+  "name": "game_boy_zelda_html5",
+  "version": "0.0.1",
+  "description": "My attempt to make a Game Boy Zelda clone using HTML5 canvas.",
+  "homepage": "https://github.com/nossidge/game_boy_zelda_html5",
+  "bugs": "https://github.com/nossidge/game_boy_zelda_html5/issues",
+  "directories": {
+    "lib": "js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nossidge/game_boy_zelda_html5.git"
+  },
+  "keywords": [
+    "HTML5",
+    "canvas",
+    "game",
+    "zelda"
+  ],
+  "author": "Paul Thompson <nossidge@gmail.com> (https://tilde.town/~nossidge/)",
+  "license": {
+    "type": "GPL-3.0-only",
+    "url": "https://github.com/nossidge/game_boy_zelda_html5/blob/master/LICENSE"
+  },
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "grunt": "~1.0.3",
+    "grunt-cli": "~1.3.2",
+    "grunt-contrib-concat": "~1.0.1",
+    "grunt-contrib-jshint": "~2.0.0",
+    "grunt-contrib-uglify": "~4.0.0",
+    "grunt-jscs": "~3.0.1"
+  }
+}
