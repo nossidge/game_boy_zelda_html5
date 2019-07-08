@@ -5958,7 +5958,9 @@ var Actor = Box.extend({
     if (this.src instanceof SpriteMap && this.animLoop) {
       this.src.use(this.animLoop); // Switch to the active animation loop
     }
-    return this._super.apply(this, arguments);
+    var spriteActor = this.spriteActor();
+    if (spriteActor) spriteActor.draw();
+    this._super.apply(this, arguments);
   },
 
   /**
@@ -6022,6 +6024,14 @@ var Actor = Box.extend({
     }
     this.updateAnimation();
     this.dampVelocity();
+
+    // Move the sprite box, if the player has one.
+    // TODO: Write a more generalised child object handler.
+    var spriteActor = this.spriteActor();
+    if (spriteActor) {
+      spriteActor.x = this.drawnX + spriteActor.xOffset;
+      spriteActor.y = this.drawnY + spriteActor.yOffset;
+    }
   },
 
   /**
@@ -6678,12 +6688,7 @@ var Actor = Box.extend({
    *   the Actor collided with something in the respective direction.
    */
   updateAnimation: function(collided) {
-    // TODO: This is really grotty... I changed something in the
-    //       Player subclass, and I should have added it here.
-    //       Need to clean it up at some point.
-    var hasFunction = (typeof this.spriteActor === 'function');
-    var spriteActor = (hasFunction ? this.spriteActor() : null);
-    if (!(this.src instanceof SpriteMap) && !spriteActor) {
+    if (!(this.src instanceof SpriteMap) && !this.spriteActor()) {
       return;
     }
     var keys = this.keys || window.keys,
@@ -6782,6 +6787,9 @@ var Actor = Box.extend({
    * sequences you have available, you might as well just call `this.src.use()`
    * directly.
    *
+   * If the Actor has a 'spriteActor' delegate, then copy the 'animLoop' to
+   * that object.
+   *
    * See also Actor#updateAnimation().
    *
    * @param {Arguments} ...
@@ -6793,17 +6801,30 @@ var Actor = Box.extend({
    *   successful; false otherwise.
    */
   useAnimation: function() {
-    if (typeof this.src.maps === 'undefined') {
+    var spriteActor = this.spriteActor();
+    spriteActor = (spriteActor ? spriteActor : this);
+    if (typeof spriteActor.src.maps === 'undefined') {
       return;
     }
     for (var i = 0; i < arguments.length; i++) {
       var a = arguments[i];
-      if (this.src.maps[a]) {
+      if (spriteActor.src.maps[a]) {
+        spriteActor.animLoop = a;
         this.animLoop = a;
         return a;
       }
     }
     return false;
+  },
+
+  // spriteActor getter/setter.
+  // This will always display the same animation as the main 'animLoop',
+  // so there can be a separation of collision and sprite drawing.
+  spriteActor: function(actorObject) {
+    if (typeof actorObject !== 'undefined') {
+      this._spriteActor = actorObject;
+    }
+    return this._spriteActor;
   },
 
   /**
@@ -6993,48 +7014,12 @@ var Player = Actor.extend({
     if (!this.isBeingDragged) {
       this.adjustViewport();
     }
-
-    // Move the sprite box, if the player has one.
-    // TODO: Write a more generalised child object handler.
-    var spriteActor = this.spriteActor();
-    if (spriteActor) {
-      spriteActor.x = this.drawnX + spriteActor.xOffset;
-      spriteActor.y = this.drawnY + spriteActor.yOffset;
-    }
-  },
-
-  // spriteActor getter/setter.
-  spriteActor: function(actorObject) {
-    if (typeof actorObject !== 'undefined') {
-      this._spriteActor = actorObject;
-    }
-    return this._spriteActor;
-  },
-
-  // Copy the sprite animation to the spriteActor, if specified.
-  useAnimation: function() {
-    var spriteActor = this.spriteActor();
-    if (typeof spriteActor === 'undefined') {
-      spriteActor = this;
-    }
-    if (typeof spriteActor.src.maps === 'undefined') {
-      return;
-    }
-    for (var i = 0; i < arguments.length; i++) {
-      var a = arguments[i];
-      if (spriteActor.src.maps[a]) {
-        spriteActor.animLoop = a;
-        this.animLoop = a;
-        return a;
-      }
-    }
-    return false;
   },
 
   // Detect whether the player is pushing up against an object.
   pushing: function() {
     var anims = ['pushRight', 'pushLeft', 'pushUp', 'pushDown'];
-    return anims.includes(player.animLoop);
+    return anims.includes(this.animLoop);
   },
 
   /**

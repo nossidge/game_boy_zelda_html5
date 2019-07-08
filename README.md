@@ -19,9 +19,9 @@ Done:
 * Separation of Player collider and Sprite
 * Loading from [Tiled](https://www.mapeditor.org/) map files
 * 'Nudge' effect for if the player is only just colliding with an obstacle
+* Separation of Actor collider and Sprite
 
 To do in this version:
-* Further separation of Actor collider and Sprite
 * Better organisation of global state
 * Better organisation of behaviour mixins
 * Floor switch

@@ -102,7 +102,6 @@ function draw() {
   blocks.draw();
   pots.draw();
 
-  playerSprite.draw();
   player.draw();
   DEBUG.draw();
 }
