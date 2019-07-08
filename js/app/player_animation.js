@@ -1,4 +1,3 @@
-
 // Easier hash generation for animation mapping.
 function animMap(startRow, startCol, endRow, endCol) {
   return {

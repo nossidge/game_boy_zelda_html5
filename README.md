@@ -46,4 +46,4 @@ Credits
 All Javascript code is based around the [HTML5-Canvas-Game-Boilerplate](https://github.com/IceCreamYou/HTML5-Canvas-Game-Boilerplate/) framework by [Isaac Sukin](http://www.isaacsukin.com/contact)
 ([@IceCreamYou](https://twitter.com/IceCreamYou)).
 
-Sprites and game mechanics are ripped from *The Legend of Zelda* Game Boy titles [Link's Awakening](https://en.wikipedia.org/wiki/The_Legend_of_Zelda:_Link's_Awakening), and [Oracle of Seasons and Oracle of Ages](https://en.wikipedia.org/wiki/The_Legend_of_Zelda:_Oracle_of_Seasons_and_Oracle_of_Ages). Credits to [Nintendo](https://www.nintendo.com/) and [Capcom](http://www.capcom.com/).
+Sprites and game mechanics are ripped from *The Legend of Zelda* Game Boy titles [*Link's Awakening*](https://en.wikipedia.org/wiki/The_Legend_of_Zelda:_Link's_Awakening), and [*Oracle of Seasons* and *Oracle of Ages*](https://en.wikipedia.org/wiki/The_Legend_of_Zelda:_Oracle_of_Seasons_and_Oracle_of_Ages). Credits to [Nintendo](https://www.nintendo.com/) and [Capcom](http://www.capcom.com/).

@@ -1,6 +1,5 @@
-
 // Mixins that contains shared functions.
-var BEHAVIOUR = ( function(mod) {
+var BEHAVIOUR = (function(mod) {
 
   // This object can be pushed by the player.
   mod.pushable = {
@@ -21,15 +20,15 @@ var BEHAVIOUR = ( function(mod) {
       if (!this.canPush()) return;
 
       var velocityMap = {
-        pushRight: {x:  1, y:  0},
-        pushLeft:  {x: -1, y:  0},
-        pushUp:    {x:  0, y: -1},
-        pushDown:  {x:  0, y:  1}
+        pushRight: { x:  1, y:  0 },
+        pushLeft:  { x: -1, y:  0 },
+        pushUp:    { x:  0, y: -1 },
+        pushDown:  { x:  0, y:  1 }
       };
       var velocity = velocityMap[playerAnimLoop];
       var destination = {
-        x: (this.drawnX + (velocity.x * tileSize)),
-        y: (this.drawnY + (velocity.y * tileSize))
+        x: this.drawnX + velocity.x * tileSize,
+        y: this.drawnY + velocity.y * tileSize
       };
 
       // Poll solid objects in the destination area to see if we can move.
@@ -37,11 +36,11 @@ var BEHAVIOUR = ( function(mod) {
       var temp = new Box(
         destination.x + pixelZoom,
         destination.y + pixelZoom,
-        this.width - (pixelZoom * 2),
-        this.height - (pixelZoom * 2)
+        this.width  - pixelZoom * 2,
+        this.height - pixelZoom * 2
       );
       var all = [...walls.getAll(), ...blocks.getAll(), ...pots.getAll()];
-      var valid = (!temp.collides(all));
+      var valid = !temp.collides(all);
       if (valid) {
         this.xVelocity = velocity.x * this.MOVEAMOUNT;
         this.yVelocity = velocity.y * this.MOVEAMOUNT;
@@ -52,8 +51,10 @@ var BEHAVIOUR = ( function(mod) {
     // Stop it moving once it reaches the destination.
     playerPushTick: function() {
       if (this.destination) {
-        if (this.drawnX == this.destination.x &&
-            this.drawnY == this.destination.y) {
+        if (
+          this.drawnX == this.destination.x &&
+          this.drawnY == this.destination.y
+        ) {
           this.destination = null;
           this.xVelocity = 0;
           this.yVelocity = 0;
@@ -76,4 +77,4 @@ var BEHAVIOUR = ( function(mod) {
   };
 
   return mod;
-}(BEHAVIOUR || {}));
+})(BEHAVIOUR || {});

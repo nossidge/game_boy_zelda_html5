@@ -46,7 +46,6 @@ var preloadables = [
   'img/wall_inner_nw.png',
   'img/wall_inner_se.png',
   'img/wall_inner_sw.png',
-//  '__ice_cream_test.tmx',
 ];
 
 // Size of the world and pixels.
@@ -144,7 +143,7 @@ function setupPlayer() {
   // Draw the player sprite on a separate object.
   // The 'player' object will handle the collision,
   // and the playerSprite will show the animations.
-  playerSprite = new Actor(player.x, player.y, tileSize, tileSize);
+  var playerSprite = new Actor(player.x, player.y, tileSize, tileSize);
   player.spriteActor(playerSprite);
 
   // Offset position from origin of player.

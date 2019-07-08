@@ -10,7 +10,6 @@ var TICKER = (function(mod) {
   function playerPushing() {
     if (player.pushing()) {
       playerPushingFrames++;
-      //console.log(playerPushingFrames);
 
       if (playerPushingFrames >= 60) {
         playerPushingFrames = 0;
@@ -18,9 +17,9 @@ var TICKER = (function(mod) {
         // Find the correct border, and return the centre pixel.
         var animLoopMap = {
           pushRight: playerOffsetBoxes.e,
-          pushLeft: playerOffsetBoxes.w,
-          pushUp: playerOffsetBoxes.n,
-          pushDown: playerOffsetBoxes.s
+          pushLeft:  playerOffsetBoxes.w,
+          pushUp:    playerOffsetBoxes.n,
+          pushDown:  playerOffsetBoxes.s,
         };
         var border = animLoopMap[player.animLoop];
         var centre = border.centre();

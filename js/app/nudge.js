@@ -1,4 +1,3 @@
-
 // Handle the case where the player is pretty-much not touching the object.
 // Just help to nudge them around it.
 function nudge(collideSolid, solidObjectsSplat) {
@@ -6,7 +5,7 @@ function nudge(collideSolid, solidObjectsSplat) {
   var pixelsToDodge = 2;
   if (collideSolid.x) {
     var verticalBorders = [playerOffsetBoxes.e, playerOffsetBoxes.w];
-    verticalBorders.forEach( function(border) {
+    verticalBorders.forEach(function(border) {
       var nearHit = border.nearHit(solidObjectsSplat);
       if (nearHit) {
         if (nearHit.overlap <= pixelsToDodge) {
@@ -19,7 +18,7 @@ function nudge(collideSolid, solidObjectsSplat) {
   }
   if (collideSolid.y) {
     var horizontalBorders = [playerOffsetBoxes.n, playerOffsetBoxes.s];
-    horizontalBorders.forEach( function(border) {
+    horizontalBorders.forEach(function(border) {
       var nearHit = border.nearHit(solidObjectsSplat);
       if (nearHit) {
         if (nearHit.overlap <= pixelsToDodge) {
