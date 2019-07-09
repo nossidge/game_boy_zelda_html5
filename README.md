@@ -20,6 +20,7 @@ Done:
 * Loading from [Tiled](https://www.mapeditor.org/) map files
 * 'Nudge' effect for if the player is only just colliding with an obstacle
 * Separation of Actor collider and Sprite
+* Room state handling
 
 To do in this version:
 * Better organisation of global state
@@ -27,7 +28,6 @@ To do in this version:
 * Floor switch
 * Crystal switches and raised/lowered blocks
 * Implement events defined in Tiled map
-* Room state handling
 * Room transitions
 * Small keys
 * Basic HUD showing key count

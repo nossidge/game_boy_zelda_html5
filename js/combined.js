@@ -4674,6 +4674,9 @@ function Collection() {
   this.concat.apply(this, arguments);
 }
 Collection.prototype = {
+  getAll: function() {
+    return this;
+  },
   /**
    * The number of items in the Collection.
    */
@@ -6534,9 +6537,8 @@ var Actor = Box.extend({
    * simulation (for example to model springs) consider using the
    * [Box2D library](https://github.com/kripken/box2d.js/).
    *
-   * @param {Box/Collection/TileMap/Array[Collection]} collideWith
-   *   A Box, Collection, TileMap or Array of Collections of objects with
-   *   which to check collision.
+   * @param {Box/Collection/TileMap} collideWith
+   *   A Box, Collection, or TileMap of objects with which to check collision.
    *
    * @return {Object}
    *   An Object with `x` and `y` properties, both Booleans indicating whether
@@ -6544,24 +6546,12 @@ var Actor = Box.extend({
    */
   collideSolid: function(collideWith) {
     var collided = {x: 0, y: 0};
-    var itemArray = false;
-    var items = [];
     if (collideWith instanceof Box || collideWith instanceof ImageWrapper) {
       collided = this._collideSolidBox(collideWith);
     }
     else if ((typeof Collection !== 'undefined' && collideWith instanceof Collection) ||
         (typeof TileMap !== 'undefined' && collideWith instanceof TileMap)) {
-      itemArray = true;
-      items = collideWith.getAll();
-
-    // Assume it's an array of Collection objects.
-    } else if (Array.isArray(collideWith)) {
-      itemArray = true;
-      collideWith.forEach(function(collection) {
-        items = items.concat(collection.getAll());
-      });
-    }
-    if (itemArray) {
+      var items = collideWith.getAll();
       for (var i = 0, l = items.length; i < l; i++) {
         var c = this._collideSolidBox(items[i]);
         if (c.x) {

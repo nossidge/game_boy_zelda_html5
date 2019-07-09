@@ -25,7 +25,7 @@ var TICKER = (function(mod) {
         var centre = border.centre();
 
         // Poll the centre pixel for pushable objects.
-        var pushableObject = centre.collides(solidObjectsSplat);
+        var pushableObject = centre.collides(room.getPushable());
         if (pushableObject) {
           pushableObject.onPlayerPush(player.animLoop);
         }

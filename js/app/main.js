@@ -55,9 +55,8 @@ var pixelZoom = 5;
 var pixelsPerTile = 16;
 var tileSize = pixelsPerTile * pixelZoom;
 
-// Collection of objects.
-var solidObjects = [];
-var solidObjectsSplat = [];
+// For now, just use one Room object.
+var room = null;
 
 //##############################################################################
 
@@ -75,19 +74,12 @@ jQuery(document).keydown(keys.debug.join(' '), function() {
 function update() {
   player.update();
 
-  var collideSolid = player.collideSolid(solidObjects);
+  var collideSolid = player.collideSolid(room.getSolid());
   playerOffsetBoxes.move();
-  nudge(collideSolid, solidObjectsSplat);
+  nudge(collideSolid, room.getSolid());
 
   TICKER.tick();
-
-  // Tick all tickable objects.
-  pots.forEach( function(obj) {
-    obj.tick();
-  });
-  blocks.forEach( function(obj) {
-    obj.tick();
-  });
+  room.tick();
 }
 
 //##############################################################################
@@ -96,11 +88,7 @@ function update() {
  * A magic-named function where all drawing should occur.
  */
 function draw() {
-  floor.draw();
-  walls.draw();
-  blocks.draw();
-  pots.draw();
-
+  room.draw();
   player.draw();
   DEBUG.draw();
 }
@@ -162,6 +150,9 @@ function setupPlayer() {
 // Initialize the map and map objects.
 function setupMap() {
 
+  // Create a Room.
+  room = new Room();
+
   // This is a rectangle array featuring only spaces.
   // It is used to draw the floor tiles.
   var floorPlan = [];
@@ -169,14 +160,11 @@ function setupMap() {
   floorPlan = floorPlan.join("\n");
   floor = new TileMap(floorPlan, {' ': Floor}, {cellSize: [tileSize, tileSize]});
 
-  // Add terrain.
-  walls = MAP.walls();
-  blocks = MAP.blocks();
-  pots = MAP.pots();
-
-  // Assign global collections.
-  solidObjects = [walls, blocks, pots];
-  solidObjectsSplat = [...blocks.getAll(), ...pots.getAll()];
+  // Add tiles to the room.
+  room.floor  = new Collection(floor.getAll());
+  room.walls  = new Collection(MAP.walls().getAll());
+  room.blocks = new Collection(MAP.blocks().getAll());
+  room.pots   = new Collection(MAP.pots().getAll());
 }
 
 //##############################################################################

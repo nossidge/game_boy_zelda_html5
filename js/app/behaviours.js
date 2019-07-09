@@ -39,8 +39,7 @@ var BEHAVIOUR = (function(mod) {
         this.width  - pixelZoom * 2,
         this.height - pixelZoom * 2
       );
-      var all = [...walls.getAll(), ...blocks.getAll(), ...pots.getAll()];
-      var valid = !temp.collides(all);
+      var valid = !temp.collides(room.getSolid());
       if (valid) {
         this.onValidPush();
         this.xVelocity = velocity.x * this.MOVEAMOUNT;
