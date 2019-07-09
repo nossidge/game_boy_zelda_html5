@@ -27,7 +27,7 @@ var TICKER = (function(mod) {
         // Poll the centre pixel for pushable objects.
         var pushableObject = centre.collides(solidObjectsSplat);
         if (pushableObject) {
-          pushableObject.playerPushStart(player.animLoop);
+          pushableObject.onPlayerPush(player.animLoop);
         }
       }
     } else {

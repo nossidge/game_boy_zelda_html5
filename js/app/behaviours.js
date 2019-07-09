@@ -16,8 +16,8 @@ var BEHAVIOUR = (function(mod) {
     },
 
     // When the player attempts to start pushing the object.
-    playerPushStart: function(playerAnimLoop) {
-      if (!this.canPush()) return;
+    onPlayerPush: function(playerAnimLoop) {
+      if (!this.canPush() || this.beingPushed()) return;
 
       var velocityMap = {
         pushRight: { x:  1, y:  0 },
@@ -42,11 +42,15 @@ var BEHAVIOUR = (function(mod) {
       var all = [...walls.getAll(), ...blocks.getAll(), ...pots.getAll()];
       var valid = !temp.collides(all);
       if (valid) {
+        this.onValidPush();
         this.xVelocity = velocity.x * this.MOVEAMOUNT;
         this.yVelocity = velocity.y * this.MOVEAMOUNT;
         this.destination = destination;
       }
     },
+
+    // When a valid push has begun. Abstract method.
+    onValidPush: function() {},
 
     // Stop it moving once it reaches the destination.
     playerPushTick: function() {
@@ -67,13 +71,11 @@ var BEHAVIOUR = (function(mod) {
   mod.pushableOnce = {
     pushCountdown: 1,
     canPush: function() {
-      if (this.pushCountdown > 0) {
-        this.pushCountdown--;
-        return true;
-      } else {
-        return false;
-      }
+      return this.pushCountdown > 0;
     },
+    onValidPush: function() {
+      this.pushCountdown--;
+    }
   };
 
   return mod;
