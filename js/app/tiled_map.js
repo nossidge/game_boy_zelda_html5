@@ -1,11 +1,17 @@
-var MAP = (function(mod) {
-  mod.grid = function() {
-    return TILED.map();
-  };
+// Load all the info from the TILED file collection.
+var TiledMap = Class.extend({
 
-  mod.walls = function() {
+  // Save to variables, so they don't have to be read repeatedly.
+  init: function(mapURL) {
+    this.mapURL  = mapURL;
+    this.mapGrid = TILED.mapGrid(this.mapURL);
+    this.spawn   = TILED.spawn(this.mapURL);
+    this.goal    = TILED.goal(this.mapURL);
+  },
+
+  walls: function() {
     return new TileMap(
-      mod.grid(),
+      this.mapGrid,
       {
         2:  WallN,
         9:  WallE,
@@ -18,31 +24,29 @@ var MAP = (function(mod) {
       },
       { cellSize: [tileSize, tileSize] }
     );
-  };
+  },
 
-  mod.blocks = function() {
+  blocks: function() {
     return new TileMap(
-      mod.grid(),
+      this.mapGrid,
       { 20: Block },
       { cellSize: [tileSize, tileSize] }
     );
-  };
+  },
 
-  mod.pots = function() {
+  pots: function() {
     return new TileMap(
-      mod.grid(),
+      this.mapGrid,
       { 21: Pot },
       { cellSize: [tileSize, tileSize] }
     );
-  };
+  },
 
-  mod.floor_switches = function() {
+  floor_switches: function() {
     return new TileMap(
-      mod.grid(),
+      this.mapGrid,
       { 27: FloorSwitch },
       { cellSize: [tileSize, tileSize] }
     );
-  };
-
-  return mod;
-})(MAP || {});
+  },
+});

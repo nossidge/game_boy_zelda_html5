@@ -113,8 +113,8 @@ function setup(first) {
   // Change the size of the playable area. Do this before placing items!
   world.resize(tileWidth * tileSize, tileHeight * tileSize);
 
-  setupPlayer();
   setupMap();
+  setupPlayer();
 }
 
 // Initialize the player.
@@ -122,7 +122,7 @@ function setupPlayer() {
 
   // Query the map for the spawn location.
   // Default to top-left if map has no spawn.
-  var spawn = TILED.spawn();
+  var spawn = room.map.spawn;
   var spawnX = spawn ? spawn.x : tileSize;
   var spawnY = spawn ? spawn.y : tileSize;
   player = new Player(spawnX + 15, spawnY + 40, tileSize - 30, tileSize - 40);
@@ -151,7 +151,7 @@ function setupPlayer() {
 function setupMap() {
 
   // Create a Room.
-  room = new Room();
+  room = new Room('maps/first_draft.tmx');
 
   // This is a rectangle array featuring only spaces.
   // It is used to draw the floor tiles.
@@ -162,10 +162,10 @@ function setupMap() {
 
   // Add tiles to the room.
   room.floor          = new Collection(floor.getAll());
-  room.walls          = new Collection(MAP.walls().getAll());
-  room.blocks         = new Collection(MAP.blocks().getAll());
-  room.pots           = new Collection(MAP.pots().getAll());
-  room.floor_switches = new Collection(MAP.floor_switches().getAll());
+  room.walls          = new Collection(room.map.walls().getAll());
+  room.blocks         = new Collection(room.map.blocks().getAll());
+  room.pots           = new Collection(room.map.pots().getAll());
+  room.floor_switches = new Collection(room.map.floor_switches().getAll());
 }
 
 //##############################################################################

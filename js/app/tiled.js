@@ -1,9 +1,6 @@
 // Load external tilemap files created using Tiled.
 var TILED = (function(mod) {
 
-  // TODO: Replace this hard-coded value.
-  var mainMapURL = 'maps/first_draft.tmx';
-
   // The maps that are to be loaded.
   var mapURLs = [
     'maps/first_draft.tmx',
@@ -14,9 +11,9 @@ var TILED = (function(mod) {
   // Contents parsed as XML using DOMParser.
   var maps = {};
 
-  // TODO: Replace this hard-coded value.
-  mod.map = function() {
-    return mapGrid(mainMapURL, 'main');
+  // TODO: Replace this hard-coded layer name.
+  mod.mapGrid = function(mapURL) {
+    return mapGrid(mapURL, 'main');
   };
 
   // Whether all maps have finished loading.
@@ -44,18 +41,28 @@ var TILED = (function(mod) {
   };
 
   // Find the spawn x and y coords.
-  mod.spawn = function() {
-    var xmlDoc = maps[mainMapURL];
-    var path = '/map/objectgroup/object[@name="spawn"]';
+  mod.spawn = function(mapURL) {
+    return findXY(mapURL, 'spawn');
+  };
+
+  // Find the goal x and y coords.
+  mod.goal = function(mapURL) {
+    return findXY(mapURL, 'goal');
+  };
+
+  //############################################################################
+
+  // Find the x and y coords of a named object.
+  function findXY(mapURL, name) {
+    var xmlDoc = maps[mapURL];
+    var path = '/map/objectgroup/object[@name="' + name + '"]';
     var node = xpath(xmlDoc, path);
     if (!node) return false;
     return {
       x: node.getAttribute('x') * pixelZoom,
       y: node.getAttribute('y') * pixelZoom,
     };
-  };
-
-  //############################################################################
+  }
 
   // Load a tilemap from a .tmx file.
   function loadMap(mapURL) {
@@ -74,7 +81,7 @@ var TILED = (function(mod) {
   // Find the 2d string grid of tiles for a given layer.
   // Return the grid string as a 2d array.
   function mapGrid(mapURL, layerName) {
-    var xmlDoc = maps[mainMapURL];
+    var xmlDoc = maps[mapURL];
     var path = '/map/layer[@name="main"]/data';
     var node = xpath(xmlDoc, path);
     var grid = node.innerHTML.trim();

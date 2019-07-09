@@ -1,6 +1,11 @@
 // A container to store the objects in a given room.
 var Room = Class.extend({
 
+  init: function(mapURL) {
+    this.mapURL = mapURL;
+    this.map = new TiledMap(mapURL);
+  },
+
   // All tile types in the game have a separate collection.
   floor:            new Collection(),
   walls:            new Collection(),

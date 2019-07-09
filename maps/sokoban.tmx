@@ -18,7 +18,7 @@
  </layer>
  <objectgroup id="3" name="objects">
   <properties>
-   <property name="goal" value="sokoban"/>
+   <property name="type" value="sokoban"/>
   </properties>
   <object id="4" name="spawn" x="64" y="112" width="16" height="16"/>
   <object id="8" name="goal" x="144" y="96" width="16" height="16"/>
