@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="15" height="11" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="4">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="15" height="11" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="8">
  <tileset firstgid="1" source="dungeon.tsx"/>
  <layer id="1" name="main" width="15" height="11">
   <data encoding="csv">
 1,2,2,2,2,2,2,2,2,2,2,2,2,2,3,
-7,0,0,20,20,0,21,0,21,0,21,0,21,0,9,
-7,0,0,20,0,0,0,21,0,21,0,21,0,21,9,
-7,20,20,0,20,0,21,0,21,0,21,0,21,0,9,
-7,0,0,0,20,0,0,21,0,21,0,21,0,21,9,
-7,21,20,20,20,0,21,0,21,0,21,0,21,0,9,
-7,0,20,20,20,0,20,20,20,20,0,0,0,0,9,
-7,0,20,20,20,0,20,20,20,20,0,0,20,20,9,
-7,0,21,0,0,0,0,20,0,0,0,20,0,0,9,
-7,0,20,20,20,20,20,20,0,0,0,20,0,0,9,
+7,25,0,20,20,0,27,21,27,21,27,21,27,21,9,
+7,0,0,0,20,0,21,0,21,0,21,0,21,0,9,
+7,20,0,20,27,0,0,21,0,21,0,21,0,21,9,
+7,20,20,27,20,0,21,27,21,27,21,27,21,0,9,
+7,0,0,0,20,0,20,20,20,20,20,20,20,0,9,
+7,21,20,20,20,0,20,20,20,20,0,0,0,0,9,
+7,0,20,20,20,0,20,20,20,0,0,0,20,27,9,
+7,0,21,0,0,0,27,20,20,21,0,20,0,0,9,
+7,27,20,20,20,20,20,20,20,27,0,20,0,26,9,
 13,14,14,14,14,14,14,14,14,14,14,14,14,14,15
 </data>
  </layer>
+ <objectgroup id="3" name="objects">
+  <properties>
+   <property name="goal" value="sokoban"/>
+  </properties>
+  <object id="4" name="spawn" x="16" y="16" width="16" height="16"/>
+  <object id="5" name="goal" x="208" y="144" width="16" height="16"/>
+ </objectgroup>
 </map>

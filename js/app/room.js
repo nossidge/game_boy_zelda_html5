@@ -75,13 +75,24 @@ var Room = Class.extend({
   },
 
   // Draw all objects in the room.
+  // TODO: Use Layers.
   draw: function() {
-    this.allTiles().draw();
+    this.floor.draw();
+    this.walls.draw();
+    this.floor_switches.draw();
+    this.blocks.draw();
+    this.pots.draw();
   },
 
   // Tick all tickable objects.
   tick: function() {
     this.pots.forEach('tick');
     this.blocks.forEach('tick');
+    this.floor_switches.forEach('tick');
   },
+
+  // Handle room-level logic and events.
+  // For example, an object that appears when all 'floor_switches' are down.
+  // Abstract method -- this is custom for each room.
+  update: function() {}
 });

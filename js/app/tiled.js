@@ -2,7 +2,7 @@
 var TILED = (function(mod) {
 
   // TODO: Replace this hard-coded value.
-  var mainMapURL = 'maps/sokoban.tmx';
+  var mainMapURL = 'maps/first_draft.tmx';
 
   // The maps that are to be loaded.
   var mapURLs = [

@@ -161,10 +161,11 @@ function setupMap() {
   floor = new TileMap(floorPlan, {' ': Floor}, {cellSize: [tileSize, tileSize]});
 
   // Add tiles to the room.
-  room.floor  = new Collection(floor.getAll());
-  room.walls  = new Collection(MAP.walls().getAll());
-  room.blocks = new Collection(MAP.blocks().getAll());
-  room.pots   = new Collection(MAP.pots().getAll());
+  room.floor          = new Collection(floor.getAll());
+  room.walls          = new Collection(MAP.walls().getAll());
+  room.blocks         = new Collection(MAP.blocks().getAll());
+  room.pots           = new Collection(MAP.pots().getAll());
+  room.floor_switches = new Collection(MAP.floor_switches().getAll());
 }
 
 //##############################################################################
