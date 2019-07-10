@@ -50,6 +50,15 @@ var TILED = (function(mod) {
     return findXY(mapURL, 'goal');
   };
 
+  // Find the type of goal for the map.
+  mod.type = function(mapURL) {
+    var xmlDoc = maps[mapURL];
+    var path = '/map/objectgroup/properties/property[@name="type"]';
+    var node = xpath(xmlDoc, path);
+    if (!node) return false;
+    return node.getAttribute('value');
+  };
+
   //############################################################################
 
   // Find the x and y coords of a named object.

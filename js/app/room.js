@@ -4,6 +4,10 @@ var Room = Class.extend({
   init: function(mapURL) {
     this.mapURL = mapURL;
     this.map = new TiledMap(mapURL);
+
+    // Mixin functionality depending on the type of room.
+    // This is specified in the Tiled map file .tmx file.
+    Object.assign(this, ROOM_TYPES[this.map.type]);
   },
 
   // All tile types in the game have a separate collection.
@@ -85,6 +89,7 @@ var Room = Class.extend({
     this.floor.draw();
     this.walls.draw();
     this.floor_switches.draw();
+    this.stairs_up.draw();
     this.blocks.draw();
     this.pots.draw();
   },
@@ -94,6 +99,7 @@ var Room = Class.extend({
     this.pots.forEach('tick');
     this.blocks.forEach('tick');
     this.floor_switches.forEach('tick');
+    this.stairs_up.forEach('tick');
   },
 
   // Handle room-level logic and events.

@@ -38,6 +38,8 @@ var preloadables = [
   'img/floor.png',
   'img/block.png',
   'img/pot.png',
+  'img/floor_switch.png',
+  'img/stairs_up.png',
   'img/wall_n.png',
   'img/wall_e.png',
   'img/wall_s.png',
@@ -158,7 +160,7 @@ function setupMap() {
   var floorPlan = [];
   for (var i = 0; i < 11; i++) floorPlan.push('               ');
   floorPlan = floorPlan.join("\n");
-  floor = new TileMap(floorPlan, {' ': Floor}, {cellSize: [tileSize, tileSize]});
+  var floor = new TileMap(floorPlan, {' ': Floor}, {cellSize: [tileSize, tileSize]});
 
   // Add tiles to the room.
   room.floor          = new Collection(floor.getAll());
@@ -166,6 +168,10 @@ function setupMap() {
   room.blocks         = new Collection(room.map.blocks().getAll());
   room.pots           = new Collection(room.map.pots().getAll());
   room.floor_switches = new Collection(room.map.floor_switches().getAll());
+  room.stairs_up      = new Collection(room.map.stairs_up().getAll());
+
+  // Perform setup on the tiles.
+  room.setup();
 }
 
 //##############################################################################

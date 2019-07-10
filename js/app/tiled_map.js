@@ -7,6 +7,7 @@ var TiledMap = Class.extend({
     this.mapGrid = TILED.mapGrid(this.mapURL);
     this.spawn   = TILED.spawn(this.mapURL);
     this.goal    = TILED.goal(this.mapURL);
+    this.type    = TILED.type(this.mapURL);
   },
 
   walls: function() {
@@ -46,6 +47,14 @@ var TiledMap = Class.extend({
     return new TileMap(
       this.mapGrid,
       { 27: FloorSwitch },
+      { cellSize: [tileSize, tileSize] }
+    );
+  },
+
+  stairs_up: function() {
+    return new TileMap(
+      this.mapGrid,
+      { 26: StairsUp },
       { cellSize: [tileSize, tileSize] }
     );
   },
