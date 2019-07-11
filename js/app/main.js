@@ -21,6 +21,7 @@ var keys = {
   down: ['down', 's'],
   left: ['left', 'a'],
   right: ['right', 'd'],
+  action: ['z', 'x'],
   debug: ['q'],
 };
 
@@ -40,6 +41,8 @@ var preloadables = [
   'img/pot.png',
   'img/floor_switch.png',
   'img/stairs_up.png',
+  'img/crystal_switch.png',
+  'img/switch_block.png',
   'img/wall_n.png',
   'img/wall_e.png',
   'img/wall_s.png',
@@ -62,10 +65,18 @@ var room = null;
 
 //##############################################################################
 
-// Show debug infomation in the console.
+// Show debug information in the console.
 jQuery(document).keydown(keys.debug.join(' '), function() {
   console.log(App.timer.frames);
   DEBUG.drawObjectsToggle();
+});
+
+// Activate the object in front of the player.
+jQuery(document).keydown(keys.action.join(' '), function() {
+
+  // Poll the interactive objects in the room to see if there's a collision.
+  var object = TICKER.playerInteractObject();
+  if (object) object.interact();
 });
 
 //##############################################################################
@@ -163,12 +174,14 @@ function setupMap() {
   var floor = new TileMap(floorPlan, {' ': Floor}, {cellSize: [tileSize, tileSize]});
 
   // Add tiles to the room.
-  room.floor          = new Collection(floor.getAll());
-  room.walls          = new Collection(room.map.walls().getAll());
-  room.blocks         = new Collection(room.map.blocks().getAll());
-  room.pots           = new Collection(room.map.pots().getAll());
-  room.floor_switches = new Collection(room.map.floor_switches().getAll());
-  room.stairs_up      = new Collection(room.map.stairs_up().getAll());
+  room.floor            = new Collection(floor.getAll());
+  room.walls            = new Collection(room.map.walls().getAll());
+  room.blocks           = new Collection(room.map.blocks().getAll());
+  room.pots             = new Collection(room.map.pots().getAll());
+  room.floor_switches   = new Collection(room.map.floor_switches().getAll());
+  room.stairs_up        = new Collection(room.map.stairs_up().getAll());
+  room.crystal_switches = new Collection(room.map.crystal_switches().getAll());
+  room.switch_blocks    = new Collection(room.map.switch_blocks().getAll());
 
   // Perform setup on the tiles.
   room.setup();

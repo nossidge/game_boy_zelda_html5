@@ -42,8 +42,7 @@ var Room = Class.extend({
 
   // These are solid and should be collided with.
   getSolid: function() {
-    var output = new Collection();
-    output.concat(
+    var output = new Collection(
       this.walls,
       this.blocks,
       this.pots,
@@ -51,9 +50,9 @@ var Room = Class.extend({
       this.chests,
       this.lock_blocks
     );
-
-    // TODO: 'switch_blocks' collision varies based on up/down state
-
+    this.switch_blocks.forEach(function(obj) {
+      if (!obj.isSolid()) output.add(obj);
+    });
     return output;
   },
 
@@ -90,6 +89,8 @@ var Room = Class.extend({
     this.walls.draw();
     this.floor_switches.draw();
     this.stairs_up.draw();
+    this.crystal_switches.draw();
+    this.switch_blocks.draw();
     this.blocks.draw();
     this.pots.draw();
   },

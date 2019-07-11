@@ -58,4 +58,36 @@ var TiledMap = Class.extend({
       { cellSize: [tileSize, tileSize] }
     );
   },
+
+  crystal_switches: function() {
+    return new TileMap(
+      this.mapGrid,
+      { 22: CrystalSwitch },
+      { cellSize: [tileSize, tileSize] }
+    );
+  },
+
+  // These are the same object, but they can be set to 'up' or 'down'.
+  switch_blocks: function() {
+    var switch_block_down = new TileMap(
+      this.mapGrid,
+      { 30: SwitchBlock },
+      { cellSize: [tileSize, tileSize] }
+    );
+    switch_block_down.forEach(function(obj) {
+      obj.setDown();
+    });
+    var switch_block_up = new TileMap(
+      this.mapGrid,
+      { 29: SwitchBlock },
+      { cellSize: [tileSize, tileSize] }
+    );
+    switch_block_up.forEach(function(obj) {
+      obj.setUp();
+    });
+    return new Collection(
+      switch_block_down.getAll(),
+      switch_block_up.getAll()
+    );
+  },
 });

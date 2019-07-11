@@ -6682,15 +6682,9 @@ var Actor = Box.extend({
       return;
     }
     var keys = this.keys || window.keys,
-        lastDirection = this.lastDirection,
+        lastDirection = this.lastLooked,
         anyIn = App.Utils.anyIn,
         keysIsDefined = typeof keys !== 'undefined'; // Don't fail if "keys" was removed
-    // Don't let shooting make us change where we're looking.
-    if (keysIsDefined &&
-        typeof keys.shoot !== 'undefined' &&
-        anyIn(keys.shoot, lastDirection)) {
-      lastDirection = this.lastLooked;
-    }
     if (this.isBeingDragged) {
       this.useAnimation('drag', 'stand');
     }

@@ -28,6 +28,7 @@ var StairsUp = Actor.extend({
 
   // Determine if the tile is being stepped on.
   tick: function() {
+    if (!this.visible) return;
     var collides = this.collider.collides(player);
     if (collides) {
       App.gameOver('a winner is you');

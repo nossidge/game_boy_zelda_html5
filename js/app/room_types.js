@@ -2,6 +2,13 @@
 // Might make these inherited in the future, depending on how I load them.
 var ROOM_TYPES = (function(mod) {
 
+  // No room-level events for this room.
+  // TODO: Maybe these should be abstract in the 'Room' definition?
+  mod.normal = {
+    setup: function() {},
+    update: function() {}
+  };
+
   // These rooms contain floor switches that must all be pressed.
   mod.sokoban = {
     targetReached: false,

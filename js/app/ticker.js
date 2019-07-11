@@ -1,4 +1,5 @@
 // This is a singleton module, used to handle behaviour updates.
+// TODO: Some of this should be moved elsewhere.
 var TICKER = (function(mod) {
 
   // Tick all events.
@@ -14,24 +15,38 @@ var TICKER = (function(mod) {
       if (playerPushingFrames >= 60) {
         playerPushingFrames = 0;
 
-        // Find the correct border, and return the centre pixel.
-        var animLoopMap = {
-          pushRight: playerOffsetBoxes.e,
-          pushLeft:  playerOffsetBoxes.w,
-          pushUp:    playerOffsetBoxes.n,
-          pushDown:  playerOffsetBoxes.s,
-        };
-        var border = animLoopMap[player.animLoop];
-        var centre = border.centre();
-
         // Poll the centre pixel for pushable objects.
-        var pushableObject = centre.collides(room.getPushable());
+        var pushableObject = playerFacingCollider().collides(room.getPushable());
         if (pushableObject) {
           pushableObject.onPlayerPush(player.animLoop);
         }
       }
     } else {
       playerPushingFrames = 0;
+    }
+  }
+
+  // The object the player is currently touching.
+  mod.playerInteractObject = function() {
+    return playerFacingCollider().collides(room.getInteractive());
+  };
+
+  // The collider object for the direction the player is facing.
+  function playerFacingCollider() {
+    var n = player.lastLooked.includes('up');
+    var e = player.lastLooked.includes('right');
+    var s = player.lastLooked.includes('down');
+    var w = player.lastLooked.includes('left');
+
+    // Find the correct border and return the centre pixel.
+    if (n) {
+      return playerOffsetBoxes.n.centre();
+    } else if (e) {
+      return playerOffsetBoxes.e.centre();
+    } else if (s) {
+      return playerOffsetBoxes.s.centre();
+    } else if (w) {
+      return playerOffsetBoxes.w.centre();
     }
   }
 
