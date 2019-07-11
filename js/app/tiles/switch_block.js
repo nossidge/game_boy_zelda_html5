@@ -16,17 +16,17 @@ var SwitchBlock = Actor.extend({
   isDown: false,
 
   // Whether the button is in the process of being toggled.
-  transitioning: false,
+  toggling: false,
 
-  // Time in milliseconds to wait until another transition is possible.
-  transitionTime: 120,
+  // Time in milliseconds to wait until another toggle can be initiated.
+  toggleTime: 120,
 
   // The actual collider object.
   // Maps to a smaller rectangle inside the sprite.
   // TODO: This is not implemented yet.
   collider: null,
 
-  // Only collide if it's un the 'up' position.
+  // Only collide if it's in the 'up' position.
   isSolid: function() {
     return this.isDown;
   },
@@ -56,9 +56,9 @@ var SwitchBlock = Actor.extend({
   },
 
   toggle: function() {
-    if (this.transitioning) return;
+    if (this.toggling) return;
     this.animLoop = 'mid';
-    this.transitioning = true;
+    this.toggling = true;
     if (this.isDown) {
       setTimeout( function(obj){
         obj.setUp();
@@ -69,7 +69,7 @@ var SwitchBlock = Actor.extend({
       }, 40, this);
     }
     setTimeout( function(obj){
-      obj.transitioning = false;
-    }, this.transitionTime, this);
+      obj.toggling = false;
+    }, this.toggleTime, this);
   },
 });
