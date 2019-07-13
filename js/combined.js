@@ -5931,6 +5931,8 @@ var Actor = Box.extend({
   dragStartX: 0, // Last position of the Actor before being dragged
   dragStartY: 0, // Last position of the Actor before being dragged
   animLoop: '', // Current SpriteMap animation sequence
+  xOffset: 0, // Only used by 'spriteActor' objects
+  yOffset: 0, // Only used by 'spriteActor' objects
 
   /**
    * @constructor

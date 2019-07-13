@@ -65,9 +65,11 @@ var BEHAVIOUR = (function(mod) {
           this.drawnX == this.destination.x &&
           this.drawnY == this.destination.y
         ) {
-          this.destination = null;
+          this.x = this.destination.x;
+          this.y = this.destination.y;
           this.xVelocity = 0;
           this.yVelocity = 0;
+          this.destination = null;
         }
       }
     }
