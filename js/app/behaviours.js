@@ -23,16 +23,16 @@ var BEHAVIOUR = (function(mod) {
     },
 
     // When the player attempts to start pushing the object.
-    onPlayerPush: function(playerAnimLoop) {
+    onPlayerPush: function(direction) {
       if (!this.canPush() || this.beingPushed()) return;
 
-      var velocityMap = {
-        pushRight: { x:  1, y:  0 },
-        pushLeft:  { x: -1, y:  0 },
-        pushUp:    { x:  0, y: -1 },
-        pushDown:  { x:  0, y:  1 }
+      var directionToVelocity = {
+        right: { x:  1, y:  0 },
+        left:  { x: -1, y:  0 },
+        up:    { x:  0, y: -1 },
+        down:  { x:  0, y:  1 }
       };
-      var velocity = velocityMap[playerAnimLoop];
+      var velocity = directionToVelocity[direction];
       var destination = {
         x: this.drawnX + velocity.x * tileSize,
         y: this.drawnY + velocity.y * tileSize

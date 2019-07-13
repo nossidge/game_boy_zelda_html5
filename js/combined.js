@@ -5962,7 +5962,11 @@ var Actor = Box.extend({
       this.src.use(this.animLoop); // Switch to the active animation loop
     }
     var spriteActor = this.spriteActor();
-    if (spriteActor) spriteActor.draw();
+    if (spriteActor) {
+      spriteActor.x = this.drawnX + spriteActor.xOffset;
+      spriteActor.y = this.drawnY + spriteActor.yOffset;
+      spriteActor.draw();
+    }
     this._super.apply(this, arguments);
   },
 
@@ -6025,16 +6029,7 @@ var Actor = Box.extend({
         this.startFalling();
       }
     }
-    this.updateAnimation();
     this.dampVelocity();
-
-    // Move the sprite box, if the player has one.
-    // TODO: Write a more generalised child object handler.
-    var spriteActor = this.spriteActor();
-    if (spriteActor) {
-      spriteActor.x = this.drawnX + spriteActor.xOffset;
-      spriteActor.y = this.drawnY + spriteActor.yOffset;
-    }
   },
 
   /**
@@ -6686,81 +6681,125 @@ var Actor = Box.extend({
         anyIn = App.Utils.anyIn,
         keysIsDefined = typeof keys !== 'undefined'; // Don't fail if "keys" was removed
     if (this.isBeingDragged) {
-      this.useAnimation('drag', 'stand');
+      this.tryUseAnimation('drag', 'stand');
     }
     else if (this.isInAir()) {
       if (this.x > this.lastX) {
-        this.useAnimation('jumpRight', 'lookRight', 'stand');
+        this.tryUseAnimation('jumpRight', 'lookRight', 'stand');
       }
       else if (this.x < this.lastX) {
-        this.useAnimation('jumpLeft', 'lookLeft', 'stand');
+        this.tryUseAnimation('jumpLeft', 'lookLeft', 'stand');
       }
       else if (this.isJumping()) {
-        this.useAnimation('jump', 'stand');
+        this.tryUseAnimation('jump', 'stand');
       }
       else {
-        this.useAnimation('fall', 'stand');
+        this.tryUseAnimation('fall', 'stand');
       }
     }
     else if (this.y > this.lastY) {
       if (this.x > this.lastX) {
-        this.useAnimation('downRight', 'stand');
+        this.tryUseAnimation('downRight', 'stand');
       }
       else if (this.x < this.lastX) {
-        this.useAnimation('downLeft', 'stand');
+        this.tryUseAnimation('downLeft', 'stand');
       }
       else {
-        this.useAnimation('down', 'stand');
+        this.tryUseAnimation('down', 'stand');
       }
     }
     else if (this.y < this.lastY) {
       if (this.x > this.lastX) {
-        this.useAnimation('upRight', 'stand');
+        this.tryUseAnimation('upRight', 'stand');
       }
       else if (this.x < this.lastX) {
-        this.useAnimation('upLeft', 'stand');
+        this.tryUseAnimation('upLeft', '<stan></stan>d');
       }
       else {
-        this.useAnimation('up', 'stand');
+        this.tryUseAnimation('up', 'stand');
       }
     }
     else if (this.x > this.lastX) {
-      this.useAnimation('right', 'stand');
+      this.tryUseAnimation('right', 'stand');
     }
     else if (this.x < this.lastX) {
-      this.useAnimation('left', 'stand');
+      this.tryUseAnimation('left', 'stand');
     }
     else if (keysIsDefined && anyIn(keys.up, lastDirection)) {
       if (anyIn(keys.right, lastDirection)) {
-        this.useAnimation('lookUpRight', 'stand');
+        this.tryUseAnimation('lookUpRight', 'stand');
       }
       else if (anyIn(keys.left, lastDirection)) {
-        this.useAnimation('lookUpLeft', 'stand');
+        this.tryUseAnimation('lookUpLeft', 'stand');
       }
       else {
-        this.useAnimation(collided && collided.y ? 'pushUp' : 'lookUp', 'stand');
+        this.tryUseAnimation(collided && collided.y ? 'pushUp' : 'lookUp', 'stand');
       }
     }
     else if (keysIsDefined && anyIn(keys.down, lastDirection)) {
       if (anyIn(keys.right, lastDirection)) {
-        this.useAnimation('lookDownRight', 'stand');
+        this.tryUseAnimation('lookDownRight', 'stand');
       }
       else if (anyIn(keys.left, lastDirection)) {
-        this.useAnimation('lookDownLeft', 'stand');
+        this.tryUseAnimation('lookDownLeft', 'stand');
       }
       else {
-        this.useAnimation(collided && collided.y ? 'pushDown' : 'lookDown', 'stand');
+        this.tryUseAnimation(collided && collided.y ? 'pushDown' : 'lookDown', 'stand');
       }
     }
     else if (keysIsDefined && anyIn(keys.right, lastDirection)) {
-      this.useAnimation(collided && collided.x ? 'pushRight' : 'lookRight', 'stand');
+      this.tryUseAnimation(collided && collided.x ? 'pushRight' : 'lookRight', 'stand');
     }
     else if (keysIsDefined && anyIn(keys.left, lastDirection)) {
-      this.useAnimation(collided && collided.x ? 'pushLeft' : 'lookLeft', 'stand');
+      this.tryUseAnimation(collided && collided.x ? 'pushLeft' : 'lookLeft', 'stand');
     }
     else {
-      this.useAnimation('stand');
+      this.tryUseAnimation('stand');
     }
+  },
+
+  // Don't use the animation immediately,
+  // as there are certain states we need to catch.
+  isPushing: false,
+  cardinalDirection: 'down',
+  tryUseAnimation: function() {
+    var args = Array.prototype.slice.call(arguments);
+
+    // If the player is pushing up against an object.
+    this.isPushing = args.some( function(i) {
+      return ['pushUp', 'pushRight', 'pushDown', 'pushLeft'].includes(i);
+    });
+
+    // Find the last looked cardinal direction.
+    // Unlike 'lastDirection' or 'lastLooked', this will be just one string.
+    // Default to 'down' as that is the direction of the 'stand' animation.
+    var animationToDirection = {
+      right:     'right',
+      left:      'left',
+      up:        'up',
+      down:      'down',
+      lookRight: 'right',
+      lookLeft:  'left',
+      lookUp:    'up',
+      lookDown:  'down',
+      pushRight: 'right',
+      pushLeft:  'left',
+      pushUp:    'up',
+      pushDown:  'down',
+    };
+    var cardinalDirection = 'down';
+    for (var i = 0; i < args.length; i++) {
+      var animation = args[i];
+      var dir = animationToDirection[animation];
+      if (dir) {
+        cardinalDirection = dir;
+        break;
+      }
+    }
+    this.cardinalDirection = cardinalDirection;
+
+    // Okay, now we can actually use the animation.
+    this.useAnimation(...args);
   },
 
   /**
@@ -7002,8 +7041,7 @@ var Player = Actor.extend({
 
   // Detect whether the player is pushing up against an object.
   pushing: function() {
-    var anims = ['pushRight', 'pushLeft', 'pushUp', 'pushDown'];
-    return anims.includes(this.animLoop);
+    return this.isPushing;
   },
 
   /**

@@ -18,7 +18,7 @@ var TICKER = (function(mod) {
         // Poll the centre pixel for pushable objects.
         var pushableObject = playerFacingCollider().collides(room.getPushable());
         if (pushableObject) {
-          pushableObject.onPlayerPush(player.animLoop);
+          pushableObject.onPlayerPush(player.cardinalDirection);
         }
       }
     } else {
