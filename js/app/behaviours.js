@@ -4,10 +4,17 @@ var BEHAVIOUR = (function(mod) {
   // This object can be pushed by the player.
   mod.pushable = {
 
-    // By default, pushables can move as often as the player likes.
-    // This method can be overwritten by other mixins.
+    // Can the object be pushed?
+    // Can't push an object that is on a raised SwitchBlock,
+    // unless the player is also on a raised SwitchBlock.
     canPush: function() {
-      return true;
+      return !this.isOnSwitchBlock();
+    },
+
+    // Determine if the object is on top of a raised SwitchBlock.
+    isOnSwitchBlock: function() {
+      var switchBlock = this.collides(room.switch_blocks);
+      return !(!switchBlock || switchBlock.isSolid());
     },
 
     // If it's being pushed, it will have a destination.
