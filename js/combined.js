@@ -6763,7 +6763,7 @@ var Actor = Box.extend({
   // Don't use the animation immediately,
   // as there are certain states we need to catch.
   isPushing: false,
-  cardinalDirection: 'down',
+  cardinalDirection: 's',
   tryUseAnimation: function() {
     var args = Array.prototype.slice.call(arguments);
 
@@ -6774,22 +6774,22 @@ var Actor = Box.extend({
 
     // Find the last looked cardinal direction.
     // Unlike 'lastDirection' or 'lastLooked', this will be just one string.
-    // Default to 'down' as that is the direction of the 'stand' animation.
+    // Default to 's' as that is the direction of the 'stand' animation.
     var animationToDirection = {
-      right:     'right',
-      left:      'left',
-      up:        'up',
-      down:      'down',
-      lookRight: 'right',
-      lookLeft:  'left',
-      lookUp:    'up',
-      lookDown:  'down',
-      pushRight: 'right',
-      pushLeft:  'left',
-      pushUp:    'up',
-      pushDown:  'down',
+      right:     'e',
+      left:      'w',
+      up:        'n',
+      down:      's',
+      lookRight: 'e',
+      lookLeft:  'w',
+      lookUp:    'n',
+      lookDown:  's',
+      pushRight: 'e',
+      pushLeft:  'w',
+      pushUp:    'n',
+      pushDown:  's',
     };
-    var cardinalDirection = 'down';
+    var cardinalDirection = 's';
     for (var i = 0; i < args.length; i++) {
       var animation = args[i];
       var dir = animationToDirection[animation];
@@ -7115,5 +7115,24 @@ var Player = Actor.extend({
   destroy: function() {
     this._super.apply(this, arguments);
     jQuery(document).off('.release', this.__keytracker);
+  },
+
+  // Is the player on a raised platform.
+  raised: false,
+
+  // Raise the player up on a platform.
+  raiseOnPlatform: function() {
+    if (!this.raised) {
+      this.raised = true;
+      this.spriteActor().yOffset -= 20;
+    }
+  },
+
+  // Lower the player back down to the ground.
+  lowerOnPlatform: function() {
+    if (this.raised) {
+      this.raised = false;
+      this.spriteActor().yOffset += 20;
+    }
   },
 });

@@ -87,9 +87,10 @@ jQuery(document).keydown(keys.action.join(' '), function() {
 function update() {
   player.update();
 
-  var collideSolid = player.collideSolid(room.getSolid());
+  var solidForPlayer = room.getSolidForObject(player);
+  var collideSolid = player.collideSolid(solidForPlayer);
   playerOffsetBoxes.move();
-  nudge(collideSolid, room.getSolid());
+  nudge(collideSolid, solidForPlayer);
 
   TICKER.tick();
   room.tick();

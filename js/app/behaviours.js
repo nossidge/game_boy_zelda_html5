@@ -4,11 +4,45 @@ var BEHAVIOUR = (function(mod) {
   // This object can be pushed by the player.
   mod.pushable = {
 
+    // If the object is raised on a SwitchBlock.
+    raised: false,
+
+    // Create a 'spriteActor' and make the main object invisible.
+    assignSpriteActor: function(src) {
+      var spriteActor = new Actor(this.x, this.y, tileSize, tileSize);
+      spriteActor.src = src;
+      this.spriteActor(spriteActor);
+      this.src = 'img/meta/transparent.png';
+    },
+
+    // Tick the object every frame.
+    tick: function() {
+      this.playerPushTick();
+      if (this.beingPushed()) {
+        this.move();
+      }
+
+      // If it's on a raised SwitchBlock, then draw it higher.
+      var spriteActor = this.spriteActor();
+      if (this.isOnSwitchBlock()) {
+        if (!this.raised) {
+          this.raised = true;
+          spriteActor.yOffset = -20;
+        }
+      } else {
+        if (this.raised) {
+          this.raised = false;
+          spriteActor.yOffset = 0;
+        }
+      }
+    },
+
     // Can the object be pushed?
     // Can't push an object that is on a raised SwitchBlock,
     // unless the player is also on a raised SwitchBlock.
     canPush: function() {
-      return !this.isOnSwitchBlock();
+      return !(this.raised && !player.raised);
+
     },
 
     // Determine if the object is on top of a raised SwitchBlock.
@@ -27,10 +61,10 @@ var BEHAVIOUR = (function(mod) {
       if (!this.canPush() || this.beingPushed()) return;
 
       var directionToVelocity = {
-        right: { x:  1, y:  0 },
-        left:  { x: -1, y:  0 },
-        up:    { x:  0, y: -1 },
-        down:  { x:  0, y:  1 }
+        e: { x:  1, y:  0 },
+        w: { x: -1, y:  0 },
+        n: { x:  0, y: -1 },
+        s: { x:  0, y:  1 },
       };
       var velocity = directionToVelocity[direction];
       var destination = {
@@ -46,7 +80,7 @@ var BEHAVIOUR = (function(mod) {
         this.width  - pixelZoom * 2,
         this.height - pixelZoom * 2
       );
-      var valid = !temp.collides(room.getSolid());
+      var valid = !temp.collides(room.getSolidForObject(this));
       if (valid) {
         this.onValidPush();
         this.xVelocity = velocity.x * this.MOVEAMOUNT;

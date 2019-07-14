@@ -5,6 +5,7 @@ var TICKER = (function(mod) {
   // Tick all events.
   mod.tick = function() {
     playerPushing();
+    playerFallOffPlatform();
   };
 
   var playerPushingFrames = 0;
@@ -26,28 +27,25 @@ var TICKER = (function(mod) {
     }
   }
 
+  // If the player was raised on a platform,
+  // but no longer has a platform underneath.
+  function playerFallOffPlatform() {
+    if (player.raised) {
+      if (!player.collides(room.switchBlocksRaised())) {
+        player.lowerOnPlatform();
+      }
+    }
+  }
+
   // The object the player is currently touching.
   mod.playerInteractObject = function() {
     return playerFacingCollider().collides(room.getInteractive());
   };
 
   // The collider object for the direction the player is facing.
+  // Find the correct border and return the centre pixel.
   function playerFacingCollider() {
-    var n = player.lastLooked.includes('up');
-    var e = player.lastLooked.includes('right');
-    var s = player.lastLooked.includes('down');
-    var w = player.lastLooked.includes('left');
-
-    // Find the correct border and return the centre pixel.
-    if (n) {
-      return playerOffsetBoxes.n.centre();
-    } else if (e) {
-      return playerOffsetBoxes.e.centre();
-    } else if (s) {
-      return playerOffsetBoxes.s.centre();
-    } else if (w) {
-      return playerOffsetBoxes.w.centre();
-    }
+    return playerOffsetBoxes[player.cardinalDirection].centre();
   }
 
   return mod;

@@ -48,11 +48,21 @@ var SwitchBlock = Actor.extend({
   setDown: function() {
     this.isDown = true;
     this.animLoop = 'down';
+    if (player) {
+      if (this.collides(player)) {
+        player.lowerOnPlatform();
+      }
+    }
   },
 
   setUp: function() {
     this.isDown = false;
     this.animLoop = 'up';
+    if (player) {
+      if (this.collides(player)) {
+        player.raiseOnPlatform();
+      }
+    }
   },
 
   toggle: function() {

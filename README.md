@@ -24,6 +24,7 @@ Done:
 * Implement room-level events defined in [Tiled](https://www.mapeditor.org/) map
 * Floor switches
 * Crystal switches and raised/lowered blocks
+* Walking and pushing objects on raised blocks
 
 To do in this version:
 * Better organisation of global state

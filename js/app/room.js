@@ -40,9 +40,18 @@ var Room = Class.extend({
     );
   },
 
-  // These are solid and should be collided with.
-  getSolid: function() {
-    var output = new Collection(
+  // SwitchBlocks are only collidable if they are raised.
+  switchBlocksRaised: function() {
+    var output = new Collection();
+    this.switch_blocks.forEach(function(obj) {
+      if (!obj.isSolid()) output.add(obj);
+    });
+    return output;
+  },
+
+  // These are always solid and should be collided with.
+  getAlwaysSolid: function() {
+    return new Collection(
       this.walls,
       this.blocks,
       this.pots,
@@ -50,9 +59,24 @@ var Room = Class.extend({
       this.chests,
       this.lock_blocks
     );
-    this.switch_blocks.forEach(function(obj) {
-      if (!obj.isSolid()) output.add(obj);
-    });
+  },
+
+  // These are currently solid and should be collided with.
+  getSolid: function() {
+    return new Collection(
+      this.getAlwaysSolid(),
+      this.switchBlocksRaised()
+    );
+  },
+
+  // These are solid for the player or another moveable object.
+  // If the actor is currently on a raised SwitchBlock platform,
+  // then do not collide with other raised SwitchBlocks.
+  getSolidForObject: function(obj) {
+    var output = this.getAlwaysSolid();
+    if (!obj.raised) {
+      output.concat(this.switchBlocksRaised());
+    }
     return output;
   },
 
