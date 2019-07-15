@@ -11,6 +11,26 @@ var BEHAVIOUR = (function(mod) {
     },
   },
 
+  // Create an invisible interaction hotbox.
+  // This is located in the centre of the object tile.
+  mod.hasHitbox = {
+    hitbox: null,
+
+    // 'pixelMargin' is the distance from the edge of the main Actor
+    // to the outside of the hitbox.
+    assignHitbox: function(pixelMargin) {
+      var offset = pixelMargin * GLOBAL.pixelZoom;
+      var hitbox = new Box(
+        this.x + offset,
+        this.y + offset,
+        this.width  - offset * 2,
+        this.height - offset * 2
+      );
+      hitbox.src = 'img/meta/transparent.png';
+      this.hitbox = hitbox;
+    },
+  },
+
   // This object can be pushed by the player.
   mod.pushable = {
 
