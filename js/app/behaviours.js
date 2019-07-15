@@ -1,19 +1,21 @@
 // Mixins that contains shared functions.
 var BEHAVIOUR = (function(mod) {
 
-  // This object can be pushed by the player.
-  mod.pushable = {
-
-    // If the object is raised on a SwitchBlock.
-    raised: false,
-
-    // Create a 'spriteActor' and make the main object invisible.
+  // Create a 'spriteActor' and make the main object invisible.
+  mod.hasSpriteActor = {
     assignSpriteActor: function(src) {
       var spriteActor = new Actor(this.x, this.y, tileSize, tileSize);
       spriteActor.src = src;
       this.spriteActor(spriteActor);
       this.src = 'img/meta/transparent.png';
     },
+  },
+
+  // This object can be pushed by the player.
+  mod.pushable = {
+
+    // If the object is raised on a SwitchBlock.
+    raised: false,
 
     // Tick the object every frame.
     tick: function() {

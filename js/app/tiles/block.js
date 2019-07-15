@@ -8,3 +8,4 @@ var Block = Actor.extend({
 });
 Object.assign(Block.prototype, BEHAVIOUR.pushable);
 Object.assign(Block.prototype, BEHAVIOUR.pushableOnce);
+Object.assign(Block.prototype, BEHAVIOUR.hasSpriteActor);

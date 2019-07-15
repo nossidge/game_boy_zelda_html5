@@ -7,3 +7,4 @@ var Pot = Actor.extend({
   }
 });
 Object.assign(Pot.prototype, BEHAVIOUR.pushable);
+Object.assign(Pot.prototype, BEHAVIOUR.hasSpriteActor);
