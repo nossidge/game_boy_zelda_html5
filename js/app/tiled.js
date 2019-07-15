@@ -68,8 +68,8 @@ var TILED = (function(mod) {
     var node = xpath(xmlDoc, path);
     if (!node) return false;
     return {
-      x: node.getAttribute('x') * pixelZoom,
-      y: node.getAttribute('y') * pixelZoom,
+      x: node.getAttribute('x') * GLOBAL.pixelZoom,
+      y: node.getAttribute('y') * GLOBAL.pixelZoom,
     };
   }
 

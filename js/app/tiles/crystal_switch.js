@@ -2,8 +2,8 @@ var CrystalSwitch = Actor.extend({
   src: new SpriteMap(
     'img/crystal_switch.png',
     {
-      off: animMap(0, 0, 0, 0),
-      on:  animMap(1, 0, 1, 0),
+      off: GLOBAL.animMap(0, 0, 0, 0),
+      on:  GLOBAL.animMap(1, 0, 1, 0),
     },
     {
       frameW: 16,

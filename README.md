@@ -27,7 +27,6 @@ Done:
 * Walking and pushing objects on raised blocks
 
 To do in this version:
-* Better organisation of global state
 * Room transitions
 * Small keys
 * Basic HUD showing key count

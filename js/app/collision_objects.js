@@ -8,7 +8,7 @@
 // Takes in a Player, a debug src image, and an x and y offset amount.
 var OffsetBox = Actor.extend({
   init: function(player, offsetX, offsetY, src) {
-    this._super.apply(this, [offsetX, offsetY, 5, 5]);
+    this._super.apply(this, [offsetX, offsetY, GLOBAL.pixelZoom, GLOBAL.pixelZoom]);
     this.player = player;
     this.offsetX = offsetX;
     this.offsetY = offsetY;
@@ -35,7 +35,7 @@ var OffsetBorder = Class.extend({
     var offsetX = isRow ? 0 : offset;
     var offsetY = isRow ? offset : 0;
     var maxCount = isRow ? player.width : player.height;
-    for (var i = 0; i < maxCount; i += pixelZoom) {
+    for (var i = 0; i < maxCount; i += GLOBAL.pixelZoom) {
       var indexX = isRow ? i : 0;
       var indexY = isRow ? 0 : i;
       var x = offsetX + indexX;
@@ -97,10 +97,10 @@ var PlayerOffsetBoxes = Class.extend({
   init: function(player) {
     var img = 'img/meta/blue.png';
     this.player = player;
-    this.n = new OffsetBorder(this.player, img, -5, true);
+    this.n = new OffsetBorder(this.player, img, -GLOBAL.pixelZoom, true);
     this.e = new OffsetBorder(this.player, img, this.player.width, false);
     this.s = new OffsetBorder(this.player, img, this.player.height, true);
-    this.w = new OffsetBorder(this.player, img, -5, false);
+    this.w = new OffsetBorder(this.player, img, -GLOBAL.pixelZoom, false);
   },
   draw: function() {
     this.all().forEach(function(obj) {

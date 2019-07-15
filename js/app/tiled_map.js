@@ -22,48 +22,42 @@ var TiledMap = Class.extend({
         3:  WallInnerNE,
         15: WallInnerSE,
         13: WallInnerSW
-      },
-      { cellSize: [tileSize, tileSize] }
+      }
     );
   },
 
   blocks: function() {
     return new TileMap(
       this.mapGrid,
-      { 20: Block },
-      { cellSize: [tileSize, tileSize] }
+      { 20: Block }
     );
   },
 
   pots: function() {
     return new TileMap(
       this.mapGrid,
-      { 21: Pot },
-      { cellSize: [tileSize, tileSize] }
+      { 21: Pot }
     );
   },
 
   floor_switches: function() {
     return new TileMap(
       this.mapGrid,
-      { 27: FloorSwitch },
-      { cellSize: [tileSize, tileSize] }
+      { 27: FloorSwitch }
     );
   },
 
   stairs_up: function() {
     return new TileMap(
       this.mapGrid,
-      { 26: StairsUp },
-      { cellSize: [tileSize, tileSize] }
+      { 26: StairsUp }
     );
   },
 
   crystal_switches: function() {
     return new TileMap(
       this.mapGrid,
-      { 22: CrystalSwitch },
-      { cellSize: [tileSize, tileSize] }
+      { 22: CrystalSwitch }
     );
   },
 
@@ -71,16 +65,14 @@ var TiledMap = Class.extend({
   switch_blocks: function() {
     var switch_block_down = new TileMap(
       this.mapGrid,
-      { 30: SwitchBlock },
-      { cellSize: [tileSize, tileSize] }
+      { 30: SwitchBlock }
     );
     switch_block_down.forEach(function(obj) {
       obj.setDown();
     });
     var switch_block_up = new TileMap(
       this.mapGrid,
-      { 29: SwitchBlock },
-      { cellSize: [tileSize, tileSize] }
+      { 29: SwitchBlock }
     );
     switch_block_up.forEach(function(obj) {
       obj.setUp();

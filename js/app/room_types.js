@@ -17,10 +17,10 @@ var ROOM_TYPES = (function(mod) {
     // It should only really be a 'stairs_up' tile.
     setup: function() {
       var temp = new Box(
-        this.map.goal.x + pixelZoom,
-        this.map.goal.y + pixelZoom,
-        pixelsPerTile * pixelZoom - pixelZoom * 2,
-        pixelsPerTile * pixelZoom - pixelZoom * 2
+        this.map.goal.x + GLOBAL.pixelZoom,
+        this.map.goal.y + GLOBAL.pixelZoom,
+        GLOBAL.pixelsPerTile * GLOBAL.pixelZoom - GLOBAL.pixelZoom * 2,
+        GLOBAL.pixelsPerTile * GLOBAL.pixelZoom - GLOBAL.pixelZoom * 2
       );
       this.goalTile = temp.collides(this.stairs_up);
     },

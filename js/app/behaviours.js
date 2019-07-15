@@ -4,7 +4,7 @@ var BEHAVIOUR = (function(mod) {
   // Create a 'spriteActor' and make the main object invisible.
   mod.hasSpriteActor = {
     assignSpriteActor: function(src) {
-      var spriteActor = new Actor(this.x, this.y, tileSize, tileSize);
+      var spriteActor = new Actor(this.x, this.y, GLOBAL.tileSize, GLOBAL.tileSize);
       spriteActor.src = src;
       this.spriteActor(spriteActor);
       this.src = 'img/meta/transparent.png';
@@ -29,7 +29,7 @@ var BEHAVIOUR = (function(mod) {
       if (this.isOnSwitchBlock()) {
         if (!this.raised) {
           this.raised = true;
-          spriteActor.yOffset = -20;
+          spriteActor.yOffset = -4 * GLOBAL.pixelZoom;
         }
       } else {
         if (this.raised) {
@@ -70,17 +70,17 @@ var BEHAVIOUR = (function(mod) {
       };
       var velocity = directionToVelocity[direction];
       var destination = {
-        x: this.drawnX + velocity.x * tileSize,
-        y: this.drawnY + velocity.y * tileSize
+        x: this.drawnX + velocity.x * GLOBAL.tileSize,
+        y: this.drawnY + velocity.y * GLOBAL.tileSize
       };
 
       // Poll solid objects in the destination area to see if we can move.
       // Make the temp box slightly smaller, as collision is sometimes iffy.
       var temp = new Box(
-        destination.x + pixelZoom,
-        destination.y + pixelZoom,
-        this.width  - pixelZoom * 2,
-        this.height - pixelZoom * 2
+        destination.x + GLOBAL.pixelZoom,
+        destination.y + GLOBAL.pixelZoom,
+        this.width  - GLOBAL.pixelZoom * 2,
+        this.height - GLOBAL.pixelZoom * 2
       );
       var valid = !temp.collides(room.getSolidForObject(this));
       if (valid) {

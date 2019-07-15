@@ -53,13 +53,6 @@ var preloadables = [
   'img/wall_inner_sw.png',
 ];
 
-// Size of the world and pixels.
-var tileWidth = 15;
-var tileHeight = 11;
-var pixelZoom = 5;
-var pixelsPerTile = 16;
-var tileSize = pixelsPerTile * pixelZoom;
-
 // For now, just use one Room object.
 var room = null;
 
@@ -90,7 +83,7 @@ function update() {
   var solidForPlayer = room.getSolidForObject(player);
   var collideSolid = player.collideSolid(solidForPlayer);
   playerOffsetBoxes.move();
-  nudge(collideSolid, solidForPlayer);
+  GLOBAL.nudge(collideSolid, solidForPlayer);
 
   TICKER.tick();
   room.tick();
@@ -125,7 +118,7 @@ function setup(first) {
   Actor.prototype.GRAVITY = false;
 
   // Change the size of the playable area. Do this before placing items!
-  world.resize(tileWidth * tileSize, tileHeight * tileSize);
+  world.resize(GLOBAL.tileWidth * GLOBAL.tileSize, GLOBAL.tileHeight * GLOBAL.tileSize);
 
   setupMap();
   setupPlayer();
@@ -137,25 +130,32 @@ function setupPlayer() {
   // Query the map for the spawn location.
   // Default to top-left if map has no spawn.
   var spawn = room.map.spawn;
-  var spawnX = spawn ? spawn.x : tileSize;
-  var spawnY = spawn ? spawn.y : tileSize;
-  player = new Player(spawnX + 15, spawnY + 40, tileSize - 30, tileSize - 40);
+  var spawnX = spawn ? spawn.x : GLOBAL.tileSize;
+  var spawnY = spawn ? spawn.y : GLOBAL.tileSize;
+  var xOffset = 3 * GLOBAL.pixelZoom;
+  var yOffset = 8 * GLOBAL.pixelZoom;
+  player = new Player(
+    spawnX + xOffset,
+    spawnY + yOffset,
+    GLOBAL.tileSize - xOffset * 2,
+    GLOBAL.tileSize - yOffset
+  );
   player.MOVEAMOUNT = 400;
 
   // Draw the player sprite on a separate object.
   // The 'player' object will handle the collision,
   // and the playerSprite will show the animations.
-  var playerSprite = new Actor(player.x, player.y, tileSize, tileSize);
+  var playerSprite = new Actor(player.x, player.y, GLOBAL.tileSize, GLOBAL.tileSize);
   player.spriteActor(playerSprite);
 
   // Offset position from origin of player.
-  playerSprite.xOffset = -15;
-  playerSprite.yOffset = -40;
+  playerSprite.xOffset = -xOffset;
+  playerSprite.yOffset = -yOffset;
 
   // Use a transparent image to let the player be invisible.
   // Assign the actual player sprites to the child Actor.
   player.src = 'img/meta/transparent.png';
-  playerSprite.src = playerSpriteMap();
+  playerSprite.src = GLOBAL.playerSpriteMap();
 
   // Offset boxes for the player to use for collision.
   playerOffsetBoxes = new PlayerOffsetBoxes(player);
@@ -172,7 +172,7 @@ function setupMap() {
   var floorPlan = [];
   for (var i = 0; i < 11; i++) floorPlan.push('               ');
   floorPlan = floorPlan.join("\n");
-  var floor = new TileMap(floorPlan, {' ': Floor}, {cellSize: [tileSize, tileSize]});
+  var floor = new TileMap(floorPlan, {' ': Floor}, {cellSize: [GLOBAL.tileSize, GLOBAL.tileSize]});
 
   // Add tiles to the room.
   room.floor            = new Collection(floor.getAll());

@@ -2,8 +2,8 @@ var FloorSwitch = Actor.extend({
   src: new SpriteMap(
     'img/floor_switch.png',
     {
-      up:   animMap(0, 0, 0, 0),
-      down: animMap(1, 0, 1, 0)
+      up:   GLOBAL.animMap(0, 0, 0, 0),
+      down: GLOBAL.animMap(1, 0, 1, 0)
     },
     {
       frameW: 16,
@@ -22,7 +22,7 @@ var FloorSwitch = Actor.extend({
     this._super.apply(this, arguments);
     this.animLoop = 'up';
 
-    var offset = 3 * pixelZoom;
+    var offset = 3 * GLOBAL.pixelZoom;
     this.collider = new Box(
       this.x + offset,
       this.y + offset,

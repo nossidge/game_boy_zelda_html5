@@ -10,7 +10,7 @@ var StairsUp = Actor.extend({
 
   init: function() {
     this._super.apply(this, arguments);
-    var offset = 5 * pixelZoom;
+    var offset = 5 * GLOBAL.pixelZoom;
     this.collider = new Box(
       this.x + offset,
       this.y + offset,

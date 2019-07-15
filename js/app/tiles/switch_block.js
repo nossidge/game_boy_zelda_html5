@@ -2,9 +2,9 @@ var SwitchBlock = Actor.extend({
   src: new SpriteMap(
     'img/switch_block.png',
     {
-      up:   animMap(0, 0, 0, 0),
-      mid:  animMap(1, 0, 1, 0),
-      down: animMap(2, 0, 2, 0)
+      up:   GLOBAL.animMap(0, 0, 0, 0),
+      mid:  GLOBAL.animMap(1, 0, 1, 0),
+      down: GLOBAL.animMap(2, 0, 2, 0)
     },
     {
       frameW: 16,
@@ -35,7 +35,7 @@ var SwitchBlock = Actor.extend({
     this._super.apply(this, arguments);
     this.animLoop = 'down';
 
-    var offset = 1 * pixelZoom;
+    var offset = 1 * GLOBAL.pixelZoom;
     this.collider = new Box(
       this.x + offset,
       this.y + offset,

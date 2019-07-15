@@ -5461,13 +5461,11 @@ var Box = Class.extend({
 
   // TODO: document these and make 'pixelZoom' more global.
   setDrawnX: function(x = this.x) {
-    var pixelZoom = 5;
-    this.drawnX = Math.round(x / pixelZoom) * pixelZoom;
+    this.drawnX = Math.round(x / GLOBAL.pixelZoom) * GLOBAL.pixelZoom;
     return this.drawnX;
   },
   setDrawnY: function(y = this.y) {
-    var pixelZoom = 5;
-    this.drawnY = Math.round(y / pixelZoom) * pixelZoom;
+    this.drawnY = Math.round(y / GLOBAL.pixelZoom) * GLOBAL.pixelZoom;
     return this.drawnY;
   },
 
@@ -7124,7 +7122,7 @@ var Player = Actor.extend({
   raiseOnPlatform: function() {
     if (!this.raised) {
       this.raised = true;
-      this.spriteActor().yOffset -= 20;
+      this.spriteActor().yOffset -= 4 * GLOBAL.pixelZoom;
     }
   },
 
@@ -7132,7 +7130,7 @@ var Player = Actor.extend({
   lowerOnPlatform: function() {
     if (this.raised) {
       this.raised = false;
-      this.spriteActor().yOffset += 20;
+      this.spriteActor().yOffset += 4 * GLOBAL.pixelZoom;
     }
   },
 });
