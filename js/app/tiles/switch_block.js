@@ -21,11 +21,6 @@ var SwitchBlock = Actor.extend({
   // Time in milliseconds to wait until another toggle can be initiated.
   toggleTime: 120,
 
-  // The actual collider object.
-  // Maps to a smaller rectangle inside the sprite.
-  // TODO: This is not implemented yet.
-  collider: null,
-
   // Only collide if it's in the 'up' position.
   isSolid: function() {
     return this.isDown;
@@ -33,21 +28,21 @@ var SwitchBlock = Actor.extend({
 
   init: function() {
     this._super.apply(this, arguments);
-    this.animLoop = 'down';
 
-    var offset = 1 * GLOBAL.pixelZoom;
-    this.collider = new Box(
-      this.x + offset,
-      this.y + offset,
-      this.width  - offset * 2,
-      this.height - offset * 2
-    );
-    this.collider.src = 'img/meta/transparent.png';
+    // Change the collision box to more accurately reflect the sprite.
+    // Only the height needs to change, the width is pretty much okay.
+    var yOffset = 5 * GLOBAL.pixelZoom;
+    this.y += yOffset;
+    this.height -= yOffset;
+
+    // Offset sprite position from top of player.
+    this.assignSpriteActor(this.src, 0, -yOffset);
+    this.useAnimation('down');
   },
 
   setDown: function() {
     this.isDown = true;
-    this.animLoop = 'down';
+    this.useAnimation('down');
     if (player) {
       if (this.collides(player)) {
         player.lowerOnPlatform();
@@ -57,7 +52,7 @@ var SwitchBlock = Actor.extend({
 
   setUp: function() {
     this.isDown = false;
-    this.animLoop = 'up';
+    this.useAnimation('up');
     if (player) {
       if (this.collides(player)) {
         player.raiseOnPlatform();
@@ -67,7 +62,7 @@ var SwitchBlock = Actor.extend({
 
   toggle: function() {
     if (this.toggling) return;
-    this.animLoop = 'mid';
+    this.useAnimation('mid');
     this.toggling = true;
     if (this.isDown) {
       setTimeout( function(obj){
@@ -83,3 +78,4 @@ var SwitchBlock = Actor.extend({
     }, this.toggleTime, this);
   },
 });
+Object.assign(SwitchBlock.prototype, BEHAVIOUR.hasSpriteActor);

@@ -22,7 +22,7 @@ var CrystalSwitch = Actor.extend({
 
   init: function() {
     this._super.apply(this, arguments);
-    this.animLoop = 'off';
+    this.useAnimation('off');
   },
 
   // Flash on, then off.
@@ -30,9 +30,9 @@ var CrystalSwitch = Actor.extend({
     if (this.flashing) return;
     if (this.animLoop == 'off') {
       this.flashing = true;
-      this.animLoop = 'on';
+      this.useAnimation('on');
       setTimeout( function(obj){
-        obj.animLoop = 'off';
+        obj.useAnimation('off');
       }, this.flashTime, this);
       setTimeout( function(obj){
         obj.flashing = false;

@@ -16,19 +16,19 @@ var FloorSwitch = Actor.extend({
 
   init: function() {
     this._super.apply(this, arguments);
-    this.animLoop = 'up';
+    this.useAnimation('up');
     this.assignHitbox(3);
   },
 
   setDown: function() {
     this.isDown = true;
-    this.animLoop = 'down';
+    this.useAnimation('down');
     roomUpdate();
   },
 
   setUp: function() {
     this.isDown = false;
-    this.animLoop = 'up';
+    this.useAnimation('up');
     roomUpdate();
   },
 

@@ -3,9 +3,11 @@ var BEHAVIOUR = (function(mod) {
 
   // Create a 'spriteActor' and make the main object invisible.
   mod.hasSpriteActor = {
-    assignSpriteActor: function(src) {
+    assignSpriteActor: function(src, xOffset = 0, yOffset = 0) {
       var spriteActor = new Actor(this.x, this.y, GLOBAL.tileSize, GLOBAL.tileSize);
       spriteActor.src = src;
+      spriteActor.xOffset = xOffset;
+      spriteActor.yOffset = yOffset;
       this.spriteActor(spriteActor);
       this.src = 'img/meta/transparent.png';
     },
